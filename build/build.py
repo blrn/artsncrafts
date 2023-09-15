@@ -48,7 +48,7 @@ def main():
         sketch_script_path = f"{out_sketch_dir_name}/{file_name}"
         template = jinja2.Template(html_template)
 
-        html_out = template.render(sketch_path=sketch_script_path)
+        html_out = template.render(sketch_path=sketch_script_path, sketch_name=base_name)
 
         print(html_out)
 
