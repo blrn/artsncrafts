@@ -24,6 +24,8 @@ jobs:
         working-directory: build
       - name: copy the sketchees to the out directory
         run: cp -r sketches html/sketches
+      - name: TEST - copy trees to index.html for testing
+        run: cp html/trees.html html/index.html
         working-directory: build
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v2.0.0
