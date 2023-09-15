@@ -26,7 +26,7 @@ jobs:
         run: ls -R
       - name: copy the sketchees to the out directory
         run: cp -r sketches html/sketches
-        working-dir: build
+        working-directory: build
       - name: TEST - list directories again
         run: ls -R
       - name: TEST - copy trees to index.html for testing
