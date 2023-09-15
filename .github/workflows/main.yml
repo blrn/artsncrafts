@@ -43,3 +43,5 @@ jobs:
           path: build/html # default is _site/
           # Duration after which artifact will expire in days.
           retention-days: # optional, default is 1
+      - name: Deploy GitHub Pages site
+        uses: actions/deploy-pages@v1.2.9
