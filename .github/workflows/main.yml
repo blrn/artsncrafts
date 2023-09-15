@@ -19,5 +19,6 @@ jobs:
         working-directory: build 
       - name: run build script
         run: python3 build.py
+        working-directory: build
 
 
