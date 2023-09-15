@@ -14,11 +14,13 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.11
+      - name: Copy sketches to build dir
+        run: cp -r sketches build/
       - name: Install Python dependencies
         run: pip install -r requirements.txt
         working-directory: build 
       - name: run build script
-        run: python3 build.py
+        run: python3 build.py --out-dir html sketches
         working-directory: build
 
 
