@@ -32,9 +32,6 @@ jobs:
         working-directory: build
       - name: TEST - list directories again
         run: ls -R
-      - name: TEST - copy trees to index.html for testing
-        run: cp html/trees.html html/index.html
-        working-directory: build
       - name: TEST - list directories again again
         run: ls -R
       - name: Upload GitHub Pages artifact
