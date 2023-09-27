@@ -36,9 +36,6 @@ def main():
     sketch_dir = pathlib.Path(sketch_dir_path)
     out_dir = pathlib.Path(out_dir_path)
 
-    script_template_file = template_dir / "sketch.js.j2"
-    html_template_file = template_dir / "sketch.html.j2"
-
     index_template_file = template_dir / "index.html.j2"
 
     if out_dir.exists():
@@ -51,13 +48,6 @@ def main():
 
     out_dir.mkdir()
 
-
-
-    with script_template_file.open('r') as f:
-        script_template = f.read()
-    with html_template_file.open('r') as f:
-        html_template = f.read()
-    
     with index_template_file.open('r') as f:
         index_template_src = f.read()
 
@@ -68,12 +58,9 @@ def main():
     # then template the index.html file from the list of objects
     sketches = []
     for f in sketch_dir.iterdir():
-        print(f"{f=}")
         if not f.is_dir():
             continue            
-        print("f.name", f.name)
         sketch_href = f"{out_sketch_dir_name}/{f.name}/index.html"
-        print(f"{sketch_href=}")
         sketch_info_file = f / "sketch.yaml"
         sketch_name = None
         sketch_description = None
@@ -90,7 +77,6 @@ def main():
             sketch_description = ""
         sketch = Sketch(name=sketch_name, description=sketch_description, href=sketch_href)
         sketches.append(sketch)
-        print("------------")
     
     
     index_template = jinja2.Template(index_template_src)
@@ -100,23 +86,6 @@ def main():
     with out_file_path.open('w') as f:
         f.write(html_out)
     
-
-    exit()
-
-    for sk_file in sketch_dir.iterdir():
-        file_name = sk_file.name
-        base_name = file_name.split('.')[0]
-        sketch_script_path = f"{out_sketch_dir_name}/{file_name}"
-        template = jinja2.Template(html_template)
-
-        html_out = template.render(sketch_path=sketch_script_path, sketch_name=base_name)
-
-        print(html_out)
-
-        out_file_path = out_dir / f"{base_name}.html"
-
-        with out_file_path.open('w') as f:
-            f.write(html_out)
     
 
 
