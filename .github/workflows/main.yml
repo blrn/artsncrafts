@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - main
-      - rework-build
 
 jobs:
   run_build_script:
