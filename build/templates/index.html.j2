@@ -7,9 +7,14 @@
   <h1>Sketches</h1>
   <hr/>
     <ul>
-        {% for sketch in sketches %}
-        <li><a href="{{sketch.href}}">{{sketch.name}}</a> {{sketch.description}}</li>
-        {% endfor %}
+        {%- for sketch in sketches -%}
+        {%- if sketch.description -%}
+        {%- set desc_string = ": " + sketch.description -%}
+        {%- else -%}
+        {%- set desc_string = "" -%}
+        {%- endif -%}
+        <li><a href="{{sketch.href}}">{{sketch.name}}</a>{{desc_string}}</li>
+        {%- endfor -%}
     </ul>
   </body>
 </html>
