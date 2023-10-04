@@ -1,4 +1,7 @@
 let grid;
+let restartButton;
+let widthInput;
+let heightInput;
 
 
 class Cell {
@@ -26,14 +29,17 @@ class Cell {
     this.revealed = true;
   }   
   
-  flag() {
-    this.flagged = true;
+  toggleFlag() {
+    print("flag");
+    this.flagged = !this.flagged;
   }
   
   draw() {
     const mineDiameter = this.width * 0.8;
     push();
-    if (this.revealed && this.mine) {
+    if (this.flagged) {
+      fill("indianred")
+    } else if (this.revealed && this.mine) {
       fill("red");
     } else if (this.revealed) {
       fill("white");
@@ -57,6 +63,7 @@ class Cell {
 
 class Grid {
   constructor(xNum, yNum, numMines, gridWidth, gridHeight) {
+    print(xNum, yNum);
     this.xNum = xNum;
     this.yNum = yNum;
     this.numMines = numMines;
@@ -192,8 +199,17 @@ class Grid {
   handleRightClick(col, row) {
     let x = col;
     let y = row;
-    
     print("right click", x,y);
+    
+    if (x >= 0 && y >= 0 && x < this.xNum && y < this.yNum) {
+      let cell = this.cells[x][y];
+      if (!cell.revealed) {
+        cell.toggleFlag();
+      }
+    }
+    
+    
+
   }
   
   handleRightClickRaw(clickX, clickY) {
@@ -204,9 +220,14 @@ class Grid {
 }
 
 function mouseClicked(ev) {
-  print(ev);
-  print(ev.button);
-  grid.handleClickRaw(ev.clientX, ev.clientY);
+  let clickX = ev.clientX;
+  let clickY = ev.clientY;
+  
+  if (clickX >= 0 && clickY >= 0 && clickX < grid.gridWidth && clickY < grid.gridHeight) {
+    grid.handleClickRaw(ev.clientX, ev.clientY);
+  } else {
+    print("click outside of grid");
+  }
   ev.preventDefault();
 }
 
@@ -215,15 +236,32 @@ function mouseRightClicked(ev) {
 }
 
 function reset() {
-  let cells = [];
-  let numCells = 10;
-  let cellWidth = min(width,height) / numCells;
-  grid = new Grid(10,10,15);
+  print(heightInput.value(), typeof heightInput.value())
+  let numCellsX = parseInt(widthInput.value());
+  let numCellsY = parseInt(heightInput.value());
+  print("numCellsX", numCellsX);
+  let cellWidth = min(width / numCellsX, height / numCellsY);
+  grid = new Grid(numCellsX,numCellsY,15);
   grid.draw();
+}
+
+function restartButtonClicked() {
+  print("restart button clicked")
+  reset();
 }
 
 function setup() {
   createCanvas(400, 400);
+  restartButton = createButton("New Game!");
+  restartButton.mouseClicked(restartButtonClicked);
+  let widthInputDiv = createDiv("Width:");
+  widthInput = createInput(10, "number");
+  widthInput.parent = widthInputDiv;
+  
+  let heightInputDiv = createDiv("Height:");
+  heightInput = createInput(10, "number");
+  heightInput.parent = heightInputDiv;
+  
   for (let element of document.getElementsByClassName("p5Canvas")) {
     element.addEventListener("contextmenu", (e) => {
       e.preventDefault();
