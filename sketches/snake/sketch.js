@@ -181,11 +181,9 @@ function setup() {
   createCanvas(600, 600);
   frameRate(10);
   s = new Snake();
-  // s.length = 10;
   moveFood();
   
   winLength = (this.width/GLOBAL_SCALE) * (this.height/GLOBAL_SCALE);
-  // winLength = 5;
   paused = true;
   gameOver = false;
   win = false;
@@ -256,18 +254,21 @@ function drawPause() {
   if (gameOver) {
     push();
     textSize(32);
+    textAlign(CENTER);
     if (win) {
       fill("green");
-      text("WIN!!!", 230, 64);
+      text("WIN!!!", width/2, 64);
     } else {
       fill("red")
-      text("GAME OVER", 150, 64);
+      text("GAME OVER", width/2, 64);
     }
     pop();
   } else {
     textSize(32);
+    textAlign(CENTER);
     fill("red");
-    text("PAUSED", 230, 64);
+    text("PAUSED", width/2, 64);
+    text("press enter to continue", width/2,96);
   }
   
   pop();
