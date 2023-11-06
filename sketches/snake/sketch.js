@@ -62,7 +62,6 @@ class Snake {
   }
   
   updateDir() {
-    print(this.dirChangeQueue);
     let x;
     let y;
     do {
@@ -104,7 +103,6 @@ class Snake {
   eat(food) {
     if (this.x === food.x && this.y === food.y) {
       this.length += 1;
-      print("eat");
       return true;
     } 
     return false;
@@ -204,7 +202,6 @@ function draw() {
 function globalUpdate() {
   if (!paused) {
     s.update();
-    print(`snake=(${s.x}, ${s.y}) | food=(${food.x}, ${food.y})`);
     if (s.length == winLength) {
       endGame(true);
     } else if (s.isDead()) {
@@ -301,7 +298,6 @@ function moveFood() {
     }
     let newLoc = createVector(tempX, tempY);
     */
-    print(`newLoc=(${newLoc.x},${newLoc.y})`);
   } while(newLoc.equals(prevLoc) || s.contains(newLoc));
   food = newLoc;
 }
@@ -315,7 +311,6 @@ function generateGridLocation() {
   
   fCol = floor(random(cols));
   fRow = floor(random(rows));
-  print(`fCol=${fCol} | fRow=${fRow} | cols=${cols} | rows=${rows}`);
   return createVector(fCol, fRow);
 }
 
