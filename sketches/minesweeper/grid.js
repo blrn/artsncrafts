@@ -8,6 +8,7 @@ class Grid {
     this.gridHeight = gridHeight || height;
     
     this.cells = [];
+    this.gameStarted = false;
     
     this.initialize();
   }
@@ -112,7 +113,23 @@ class Grid {
   handleClick(col, row) {
     let x = col;
     let y = row;
+    
     if (x >= 0 && y >= 0 && x < this.xNum && y < this.yNum) {
+      if (!this.gameStarted) {
+        let regenCount = 0;
+        while (this.cells[x][y].mine || this.cells[x][y].num > 0) {
+          this.initialize();
+          regenCount++;
+          if (regenCount % 500 == 0) {
+            print(`regenCount=${regenCount}`);
+          }
+          if (regenCount > 1E5) {
+            break;
+          }
+        }
+        print(`map regenerated ${regenCount} times`);
+        this.gameStarted = true;
+      }
       if (this.cells[x][y].revealed) {
         this.revealSurrounding(x,y);
         return;
