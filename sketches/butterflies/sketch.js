@@ -11,7 +11,9 @@ function setup() {
   background("purple");
   translate(width/2,height/2);
   let resetBackgroundBtn = createButton("reset drawing");
-  addSlider("speed", 0, 0.1, dy, 0.01, "Speed: #");    resetBackgroundBtn.mousePressed(()=>resetBackground=true);
+  addSlider("speed", 0, 0.1, dy, 0.01, "Speed: #");  
+  addSlider("dx", 0, 1, 0.1, 0.05, "dx: #");   
+  resetBackgroundBtn.mousePressed(()=>resetBackground=true);
   lastSpeed = vars["speed"];
 }
 
@@ -19,12 +21,13 @@ function draw() {
   let startAngle = 0;
   let endAngle = 2*PI;
   let angleStep = 2*PI/100;
-  let dx = 0.1;
+  let dx = vars["dx"];
   let speedChanged = lastSpeed != vars["speed"];
   if (speedChanged) {
     resetBackground = true;
     lastSpeed = vars["speed"];
     dy = vars["speed"];
+    dx = vars["dx"];
   }
   
   if (resetBackground) {
