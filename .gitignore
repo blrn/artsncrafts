@@ -1,3 +1,5 @@
 .DS_Store
 build/venv
 scratch/
+sketches/*/p5.js
+sketches/*/p5.sound.min.js
