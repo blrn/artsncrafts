@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Arts N' Crafts - ML5 Sentiment </title>
+        <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+        <style>
+            .hidden {
+                display: none !important;
+            }
+            #inputText {
+                display: block;
+                height: 100px;
+                width: 500px;
+                margin-bottom: 20px;
+            }
+            #outputContainer {
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="loadingContainer">
+            <h3 id="loadingText">Loading...</h3>
+        </div>
+        <div id="mainContainer" class="hidden">
+            <h4>Enter the text to be analyzed below then click submit</h4>
+            <textarea id="inputText"></textarea>
+            <button id="submitButton">Submit!</button>
+            <div id="outputContainer">
+                <span>Sentiment Score: </span>
+                <span id="outputText"></span>
+            </div>
+        </div>
+        <script type="application/javascript">
+            const loadingContainer = document.getElementById("loadingContainer");
+            const mainContainer = document.getElementById("mainContainer");
+            const inputText = document.getElementById("inputText");
+            const submitButton = document.getElementById("submitButton");
+            const loadingText = document.getElementById("loadingText");
+            const outputContainer = document.getElementById("outputContainer");
+            const outputText = document.getElementById("outputText");
+
+            const sentiment = ml5.sentiment('movieReviews', modelReady);
+
+            let analyzeCalls = 0;
+            let oninputCalls = 0;
+
+            function analyzeSentiment() {
+                const itteration = ++analyzeCalls;
+                const text = inputText.value;
+                console.log(`=========== start ${itteration} ===========`);
+                console.log(`text='${text}'`);
+                const startTime = new Date();
+                const prediction = sentiment.predict(text);
+                const endTime = new Date();
+                console.log(prediction);
+                console.log(`prediction took ${endTime-startTime}`);
+                outputText.innerText = prediction.score;
+                console.log(`=========== end ${itteration} ===========`);
+            }
+
+            const throttledAnalyzeSentiment = _.throttle(analyzeSentiment, 1000);
+
+            inputText.oninput = () => {
+                const itteration = ++oninputCalls;
+                console.log(`onchange #${itteration}`);
+                throttledAnalyzeSentiment();
+            }
+
+
+            submitButton.onclick = () => {
+                _.defer()
+                const text = inputText.value;
+                const prediction = sentiment.predict(text)
+                console.log(prediction);
+                outputText.innerText = prediction.score;
+
+            }
+
+            function modelReady() {
+                console.log('Model Loaded!');
+                loadingContainer.classList.add("hidden");
+                mainContainer.classList.remove("hidden");
+            }
+
+
+        </script>
+    </body>
+</html>
