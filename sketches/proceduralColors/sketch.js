@@ -72,6 +72,7 @@ function setup() {
   newButton.mouseClicked(() => {
     noiseSeed(random(100000));
     changeColors();
+    background(220);
   });
   initializeColors();
   frameRate(frameR);
