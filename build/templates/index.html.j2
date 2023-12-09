@@ -13,7 +13,9 @@
         {%- else -%}
         {%- set desc_string = "" -%}
         {%- endif -%}
+        {%- if not sketch.hidden -%}
         <li><a href="{{sketch.href}}">{{sketch.name}}</a>{{desc_string}}</li>
+        {% endif %}
         {%- endfor -%}
     </ul>
   </body>

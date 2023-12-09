@@ -8,10 +8,11 @@ import shutil
 
 
 @dataclass
-class Sketch:
+class SketchConfig:
     name: str
     description: str
     href: str
+    hidden: bool = False
 
 
 def main():
@@ -69,21 +70,17 @@ def main():
         sketch_info_file = f / "sketch.yaml"
         sketch_name = None
         sketch_description = None
+        sketch_config = SketchConfig(name=f.name, description="", href=sketch_href, hidden=False)
         if sketch_info_file.exists():
             with sketch_info_file.open("r") as f:
                 sketch_info = yaml.safe_load(f)
+                sketch_config.hidden = sketch_info.get("hidden", False)
                 if temp_name := sketch_info.get("name"):
-                    sketch_name = temp_name
+                    sketch_config.name = temp_name
                 if temp_description := sketch_info.get("description"):
-                    sketch_description = temp_description
-        if not sketch_name:
-            sketch_name = f.name
-        if not sketch_description:
-            sketch_description = ""
-        sketch = Sketch(
-            name=sketch_name, description=sketch_description, href=sketch_href
-        )
-        sketches.append(sketch)
+                    sketch_config.description = temp_description
+
+        sketches.append(sketch_config)
 
     index_template = jinja2.Template(index_template_src)
 
